@@ -12,13 +12,13 @@ def find_product1(years, my_sum, num_of_factors):
     for year1 in years:
         for year2 in years:
             if num_of_factors == 2:
-                if year1 + year2 == 2020:
+                if year1 + year2 == my_sum:
                     print(f"{year1} + {year2} = {year1 + year2}")
                     print(f"{year1} * {year2} = {year1 * year2}")
                     return
             if num_of_factors == 3:
                 for year3 in years:
-                    if year1 + year2 + year3 == 2020:
+                    if year1 + year2 + year3 == my_sum:
                         print(f"{year1} + {year2} + {year3} = {year1 + year2 + year3}")
                         print(f"{year1} * {year2} * {year3} = {year1 * year2 * year3}")
                         return
@@ -37,8 +37,10 @@ def find_product2(years, my_sum, num_of_factors):
             elif num_of_factors == 3:
                 for k in range(j + 1, len(years)):
                     if years[i] + years[j] + years[k] == my_sum:
-                        print(f"{years[i]} + {years[j]} + {years[k]} = {years[i] + years[j] + years[k]}")
-                        print(f"{years[i]} * {years[j]} * {years[k]} = {years[i] * years[j] * years[k]}")
+                        print(f"{years[i]} + {years[j]} + {years[k]}"
+                              f"= {years[i] + years[j] + years[k]}")
+                        print(f"{years[i]} * {years[j]} * {years[k]}"
+                              f"= {years[i] * years[j] * years[k]}")
                         return
 
 def find_product3(years, my_sum, num_of_factors):
