@@ -1,8 +1,4 @@
 with open("input.txt", "r") as file:
-    # data = []
-    # for item in file.readlines():
-    #     data.append(int(item))
-
     YEARS = [int(item) for item in file.readlines()]
 
 def find_product1(years, my_sum, num_of_factors):
