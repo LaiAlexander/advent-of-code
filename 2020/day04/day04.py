@@ -9,50 +9,53 @@ FIELDS = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"]
 VALID_PASSPORTS_P1 = 0
 VALID_PASSPORTS_P2 = 0
 
-def validated_p2(passport):
-    if int(passport["byr"]) < 1920 or int(passport["byr"]) > 2002:
-        return False
+def validate_int(minimum, maximum, number):
+    """
+    number must be an int.
+    """
+    return minimum <= number <= maximum
 
-    if int(passport["iyr"]) < 2010 or int(passport["iyr"]) > 2020:
-        return False
+def validate_pid(pid):
+    return len(pid) == 9 and pid.isnumeric()
 
-    if int(passport["eyr"]) < 2020 or int(passport["eyr"]) > 2030:
-        return False
-
-    if len(passport["pid"]) != 9 or not passport["pid"].isnumeric():
-        return False
-
-    hcl = passport["hcl"]
+def validate_hcl(hcl):
     if hcl[0] != "#":
         return False
     hcl = hcl.replace("#", "")
-    letters = ["a", "b", "c", "d", "e", "f"]
+
     if len(hcl) != 6:
         return False
-    for alphanum in hcl:
-        if not alphanum.isnumeric() and alphanum not in letters:
+
+    valid_symbols = [str(i) for i in range(10)] + [chr(l) for l in range(ord('a'), ord('a') + 6)]
+
+    for symbol in hcl:
+        if symbol not in valid_symbols:
             return False
 
-    ecl = ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"]
-    if passport["ecl"] not in ecl:
-        return False
+    return True
 
-    hgt = passport["hgt"]
+def validate_ecl(ecl):
+    colors = ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"]
+    return ecl in colors
+
+def validate_hgt(hgt):
     if len(hgt) > 3:
         if hgt[-2:] == "cm":
             hgt = int(hgt[:-2])
-            if hgt < 150 or hgt > 193:
-                return False
-        elif hgt[-2:] == "in":
+            return validate_int(150, 193, hgt)
+        if hgt[-2:] == "in":
             hgt = int(hgt[:-2])
-            if hgt < 59 or hgt > 76:
-                return False
-        else:
-            return False
-    else:
-        return False
+            return validate_int(59, 76, hgt)
+    return False
 
-    return True
+def validated_p2(passport):
+    return (validate_int(1920, 2002, int(passport["byr"]))
+            and validate_int(2010, 2020, int(passport["iyr"]))
+            and validate_int(2020, 2030, int(passport["eyr"]))
+            and validate_pid(passport["pid"])
+            and validate_hcl(passport["hcl"])
+            and validate_ecl(passport["ecl"])
+            and validate_hgt(passport["hgt"]))
 
 for passport in PASSPORTS:
     details = passport.split(" ")
@@ -64,9 +67,7 @@ for passport in PASSPORTS:
 
     valid = True
     for field in FIELDS:
-        if passport_dict.get(field):
-            pass
-        else:
+        if not passport_dict.get(field):
             valid = False
 
     if valid:
