@@ -23,8 +23,8 @@ def find_bag(bag, color):
 
 def part_1():
     count = 0
-    for key in ALL_BAGS:
-        if find_bag(key, "shiny gold"):
+    for bag in ALL_BAGS:
+        if find_bag(bag, "shiny gold"):
             count += 1
     return count
 
