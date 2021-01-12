@@ -7,11 +7,11 @@ def part_1():
     last_numbers = deque(maxlen=25)
     for number in NUMBERS:
         if len(last_numbers) == last_numbers.maxlen:
-            sums = []
+            sums = set()
             for i in last_numbers:
                 for j in last_numbers:
                     if i != j:
-                        sums.append(i + j)
+                        sums.add(i + j)
             if number not in sums:
                 return number
         last_numbers.append(number)
