@@ -4,22 +4,25 @@ with open("input.txt") as file:
     NUMBERS = [int(line.replace("\n", "")) for line in file.readlines()]
 
 def part_1():
-    last_numbers = deque(maxlen=25)
+    def validate_number(current_numbers, num):
+        for i in current_numbers:
+            for j in current_numbers:
+                if i != j:
+                    if (i + j) == num:
+                        return True
+        return False
+
+    current_numbers = deque(maxlen=25)
     for number in NUMBERS:
-        if len(last_numbers) == last_numbers.maxlen:
-            sums = set()
-            for i in last_numbers:
-                for j in last_numbers:
-                    if i != j:
-                        sums.add(i + j)
-            if number not in sums:
+        if len(current_numbers) == current_numbers.maxlen:
+            if not validate_number(current_numbers, number):
                 return number
-        last_numbers.append(number)
+        current_numbers.append(number)
     return None
 
 def part_2(target):
     for i, start_number in enumerate(NUMBERS):
-        cont_numbers = deque()
+        cont_numbers = [] # is deque() better?
         cont_numbers.append(start_number)
         for end_number in NUMBERS[i + 1:]:
             if sum(cont_numbers) == target:
