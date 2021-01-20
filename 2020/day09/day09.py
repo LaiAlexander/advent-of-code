@@ -1,7 +1,7 @@
 from collections import deque
 
 with open("input.txt") as file:
-    NUMBERS = [int(line.replace("\n", "")) for line in file.readlines()]
+    NUMBERS = [int(line.replace("\n", "")) for line in file.readlines()] # may use line.strip() instead, simpler.
 
 def part_1():
     def validate_number(current_numbers, num):
